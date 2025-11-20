@@ -61,6 +61,8 @@ public class CucumberPosSteps {
     }
 
     private List<PosDto> createdPosList;
+
+    private PosDto posToUpdate;
     private PosDto updatedPos;
 
     /**
@@ -91,7 +93,12 @@ public class CucumberPosSteps {
         assertThat(retrievedPosList).isEmpty();
     }
 
-    // TODO: Add Given step for new scenario
+    @Given("a POS list with the following three elements")
+    public void aPosListWithTheFollowingThreeElements(List<PosDto> posList){
+        List<PosDto> listToUpdate = createPos(posList);
+                posToUpdate = listToUpdate.getFirst();
+        assertThat(listToUpdate).size().isEqualTo(3);
+    }
 
     // When -----------------------------------------------------------------------
 
@@ -101,7 +108,10 @@ public class CucumberPosSteps {
         assertThat(createdPosList).size().isEqualTo(posList.size());
     }
 
-    // TODO: Add When step for new scenario
+    @When("I update one of the three existing POS")
+    public void updateOneOfTheThreeExistingPos(){
+        updatedPos = updatePos(retrievePos()).getFirst();
+    }
 
     // Then -----------------------------------------------------------------------
 
@@ -113,5 +123,8 @@ public class CucumberPosSteps {
                 .containsExactlyInAnyOrderElementsOf(createdPosList);
     }
 
-    // TODO: Add Then step for new scenario
+    @Then("the POS list should reflect the changes made")
+    public void thePosListShouldReflectTheChangesMade(){
+        assertThat(updatedPos.updatedAt()).isNotEqualTo(posToUpdate.updatedAt());
+    }
 }
