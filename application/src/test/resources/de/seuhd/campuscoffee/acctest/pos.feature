@@ -11,3 +11,7 @@ Feature: Points of Sale Management
     Then the POS list should contain the same elements in the same order
 
 # TODO: Add new scenario "Update one of three existing POS"
+  Scenario: Given a POS list with three elements
+  When I update one of the three existing POS
+
+  Then the POS list should reflect the changes made
